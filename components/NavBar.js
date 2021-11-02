@@ -46,7 +46,6 @@ const NavBar = ({ path }) => {
   }
 
 
-
   return (
     <Box as='nav' flex=".2" bg="blue.900" color="blue.200" display='flex' flexDir='column' w="full">
       <Flex alignItems="center" p={3}>
