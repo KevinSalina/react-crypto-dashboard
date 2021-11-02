@@ -31,7 +31,7 @@ const NavBar = ({ path }) => {
     const inactiveColor = useColorModeValue('green.500', 'green.300')
 
     return (
-      <Box w="full" px={5} py={3} bg={active ? 'gray.500' : undefined} onClick={handleClick} _hover={{ color: 'white' }} transition="all .1s ease-in">
+      <Box w="full" px={6} py={3} bg={active ? 'gray.500' : undefined} onClick={handleClick} _hover={{ color: 'white' }} transition="all .1s ease-in">
         <HStack>
           <Icon as={icon} mr={1} boxSize={5} color="white" />
           <Heading size="sm" >

@@ -14,7 +14,7 @@ const Layout = ({ children }) => {
       <Box display="flex" height="100vh" overflow="hidden">
         <NavBar />
         <Box flex=".8">
-          <Box p={3}>
+          <Box p={{ base: '5%', md: 10 }}>
             {children}
           </Box>
           <Footer />
