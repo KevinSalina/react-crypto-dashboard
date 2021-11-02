@@ -6,14 +6,14 @@ import Footer from './Footer'
 
 const Layout = ({ children }) => {
   return (
-    <Box as='main' pb={8} overflow="hidden">
+    <Box as='main' height='100vh'>
       <Head>
         <title>Cyrpto App</title>
       </Head>
 
-      <Box display="flex" height="100vh" overflow="hidden">
+      <Box display="flex" height="100vh">
         <NavBar />
-        <Box flex=".8">
+        <Box ml='225px' w="full">
           <Box p={{ base: '5%', md: 10 }}>
             {children}
           </Box>

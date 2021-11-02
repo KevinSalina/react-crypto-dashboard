@@ -1,10 +1,11 @@
 import React from 'react'
+import Cryptocurrencies from '../components/Cryptocurrencies'
 
 const cryptocurrencies = () => {
   return (
-    <div>
-      Cryptocurrencies Page
-    </div>
+    <>
+      <Cryptocurrencies />
+    </>
   )
 }
 

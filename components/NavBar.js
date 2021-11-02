@@ -31,7 +31,7 @@ const NavBar = ({ path }) => {
     const inactiveColor = useColorModeValue('green.500', 'green.300')
 
     return (
-      <Box w="full" px={6} py={3} bg={active ? 'gray.500' : undefined} onClick={handleClick} _hover={{ color: 'white' }} transition="all .1s ease-in">
+      <Box w="full" px={6} py={3} bg={active ? 'gray.500' : undefined} onClick={handleClick} _hover={{ color: 'white', cursor: 'pointer' }} transition="all .1s ease-in">
         <HStack>
           <Icon as={icon} mr={1} boxSize={5} color="white" />
           <Heading size="sm" >
@@ -47,7 +47,7 @@ const NavBar = ({ path }) => {
 
 
   return (
-    <Box as='nav' flex=".2" bg="blue.900" color="blue.200" display='flex' flexDir='column' w="full">
+    <Box as='nav' flex={.2} position="fixed" top={0} left={0} bg="blue.900" color="blue.200" display='flex' flexDir='column' w='225px' h='full'>
       <Flex alignItems="center" p={3}>
         <Heading size="lg" color="white" >
           <NextLink href="/">
