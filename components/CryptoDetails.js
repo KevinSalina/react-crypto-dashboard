@@ -27,26 +27,30 @@ import { ExternalLinkIcon } from '@chakra-ui/icons'
 import HTMLReactParser, { domToReact } from 'html-react-parser'
 import numeral, { options } from 'numeral'
 
-import { useGetSingleCryptoQuery } from '../services/cryptoApi'
+import { useGetSingleCryptoQuery, useGetCryptoHistoryQuery } from '../services/cryptoApi'
+import LineChart from './LineChart'
 
 const CryptoDetails = ({ coinId }) => {
   const [timePeriod, setTimePeriod] = useState('7d')
   const [cryptoCoin, setcryptoCoin] = useState(null)
+  const [cryptoHistory, setCryptoHistory] = useState(null)
 
   const { data, isFetching } = useGetSingleCryptoQuery(coinId)
+  const { data: coinHistory } = useGetCryptoHistoryQuery({ id: coinId, timePeriod })
 
   useEffect(() => {
     setcryptoCoin(data?.data?.coin)
-  }, [data])
+    setCryptoHistory(coinHistory?.data)
+  }, [data, coinHistory])
 
 
   const millify = (num, type) => {
     return numeral(num).format(type || '0.0a')
   }
 
-  if (isFetching || !cryptoCoin) return 'Loading...'
+  if (isFetching || !cryptoCoin || !cryptoHistory) return 'Loading...'
 
-  const times = ['3h', '24h', '7d', '30d', '1y', '3m', '3y', '5y']
+  const times = ['24h', '7d', '30d', '1y', '5y']
 
   const stats = [
     {
@@ -69,9 +73,9 @@ const CryptoDetails = ({ coinId }) => {
   const htmlParserOptions = {
     replace: domNode => {
       if (domNode.name === 'p') {
-        return <Text mb={3} color="blue.500" fontWeight='medium'>{domToReact(domNode.children, htmlParserOptions)}</Text>
+        return <Text mb={3} color="blue.500" fontWeight='light'>{domToReact(domNode.children, htmlParserOptions)}</Text>
       } else if (domNode.name === 'h3') {
-        return <Heading as='h4' size='lg' mb={3}>{domToReact(domNode.children)}</Heading>
+        return <Heading as='h4' size='md' mb={3}>{domToReact(domNode.children)}</Heading>
       } else if (domNode.name === 'a') {
         return <Link isExternal color="blue.800" href={domNode.attribs.href}>{domToReact(domNode.children)} <ExternalLinkIcon mx="2px" /></Link>
       }
@@ -86,16 +90,24 @@ const CryptoDetails = ({ coinId }) => {
         <Text> {cryptoCoin.name} live price is USD. View value statistics, market cap and supply</Text>
       </VStack>
       <Divider />
-      <Select placeholder={timePeriod} mt={5} mb={10} maxW='200px'>
+      <Select
+        placeholder='Time Frame'
+        value={timePeriod}
+        onChange={(e) => setTimePeriod(e.target.value)}
+        mt={5}
+        mb={7}
+        maxW='200px'
+      >
         {times.map(time => (
           <option key={time} value={time}>{time}</option>
         ))}
       </Select>
       {/* Line Chart */}
+      <LineChart coinHistory={cryptoHistory} currentPrice={cryptoCoin.price} coinName={cryptoCoin.name} />
       {/* Stats */}
-      <Flex direction={{ base: 'column', lgxl: 'row' }} maxW='1000px' mb={10}>
-        <Flex direction='column' w='full' maxW='400px' mx='auto' mb={{ base: 10, lgxl: 0 }}>
-          <VStack mb={5}>
+      <Flex direction={{ base: 'column', lgxl: 'row' }} maxW='1000px' mb={{ base: 10, lgxl: '100px' }} mx='auto'>
+        <Flex direction='column' w='full' maxW='400px' mb={{ base: 10, lgxl: 0 }} mx='auto'>
+          <VStack mb={5} align='flex-start'>
             <Heading as="h3" size='lg'>{cryptoCoin.name} Value Stats</Heading>
             <Text fontSize='md'>Stats overview of {cryptoCoin.name} (USD)</Text>
           </VStack>
@@ -113,7 +125,7 @@ const CryptoDetails = ({ coinId }) => {
         <Spacer />
         {/* General Stats */}
         <Flex direction='column' w='full' maxW='400px' mx='auto'>
-          <VStack mb={5}>
+          <VStack mb={5} align='flex-start'>
             <Heading as="h3" size='lg'>Other Stats</Heading>
             <Text fontSize='md'>Stats overview of all cryptocurrencies (USD)</Text>
           </VStack>
@@ -129,10 +141,27 @@ const CryptoDetails = ({ coinId }) => {
           ))}
         </Flex>
       </Flex>
-      <Box w='full' maxW='1000px'>
-        <Heading mb={5} as='h3' size='xl'>What is {cryptoCoin.name}?</Heading>
-        {HTMLReactParser(cryptoCoin.description, htmlParserOptions)}
-      </Box>
+      <Flex direction={{ base: 'column', lgxl: 'row' }}>
+        {/* Text Desc */}
+        <Box w='full' mb={10} pr={{ base: 0, lg: 10 }}>
+          <Heading mb={5} as='h3' size='lg'>What is {cryptoCoin.name}?</Heading>
+          {HTMLReactParser(cryptoCoin.description, htmlParserOptions)}
+        </Box>
+        <Spacer />
+        {/* Links */}
+        <Flex direction='column' w='full'>
+          <Heading as="h3" size='lg'>{cryptoCoin.name} Links</Heading>
+          {cryptoCoin.links.map((link, index) => (
+            <Flex key={index} direction='column' w='full' >
+              <Flex direction='row' justifyContent='space-between' alignItems='center' key={index} py={3} px={1} w='full' _hover={{ bg: 'white', boxShadow: 'sm' }} transition="all .1s ease-in" >
+                <Text>{link.type}</Text>
+                <Link color='blue.800' href={link.url} isExternal>{link.name} <ExternalLinkIcon mx="2px" /> </Link>
+              </Flex>
+              <Divider />
+            </Flex>
+          ))}
+        </Flex>
+      </Flex>
     </>
   )
 }
