@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import numeral from 'numeral'
 import NextLink from 'next/link'
-import { Box, SimpleGrid, GridItem, VStack, HStack, Heading, Image, Divider, Text } from '@chakra-ui/react'
+import { Box, SimpleGrid, GridItem, VStack, HStack, Heading, Image, Divider, Text, Input } from '@chakra-ui/react'
 
 import { useGetCryptosQuery } from '../services/cryptoApi'
 
@@ -10,14 +10,27 @@ const Cryptocurrencies = ({ simplified }) => {
 
   const { data: cryptoList, isFetching } = useGetCryptosQuery(count)
   const [cryptos, setCryptos] = useState(cryptoList?.data?.coins)
+  const [searchTerm, setsearchTerm] = useState('')
+
+  useEffect(() => {
+    const filteredData = cryptoList?.data?.coins.filter(coin => coin.name.toLowerCase().includes(searchTerm.toLowerCase()))
+
+    setCryptos(filteredData)
+
+  }, [searchTerm, cryptoList])
 
   if (isFetching) return 'Loading...'
 
   return (
     <>
+      {!simplified ?
+        <Box mb={10} maxW='500px'>
+          <Input placeholder="Search Coins" value={searchTerm} onChange={(e) => setsearchTerm(e.target.value)} />
+        </Box>
+        : null}
       <SimpleGrid columns={24} spacing={5} w='full' >
         {cryptos?.map(currency => (
-          <GridItem key={currency.id} p={4} transition="all .1s ease-in" colSpan={{ base: 24, md: 12, xl: 8 }} boxShadow='lg' rounded="md" _hover={{ cursor: 'pointer', boxShadow: 'xl' }}>
+          <GridItem key={currency.id} p={4} bgColor="white" transition="all .1s ease-in" colSpan={{ base: 24, md: 12, xl: 8 }} boxShadow='lg' rounded="md" _hover={{ cursor: 'pointer', boxShadow: 'xl' }}>
             <NextLink href={`/cryptocurrencies/${currency.id}`} passHref>
               <VStack>
                 <HStack justify="space-between" w="full">

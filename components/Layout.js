@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
         <title>Cyrpto App</title>
       </Head>
 
-      <Box display="flex" height="100vh">
+      <Box display="flex" height="100vh" bgColor="gray.50">
         <NavBar />
         <Box ml='225px' w="full">
           <Box p={{ base: '5%', md: 10 }}>
