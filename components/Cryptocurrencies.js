@@ -4,6 +4,7 @@ import NextLink from 'next/link'
 import { Box, SimpleGrid, GridItem, VStack, HStack, Heading, Image, Divider, Text, Input } from '@chakra-ui/react'
 
 import { useGetCryptosQuery } from '../services/cryptoApi'
+import Loader from '../components/Loader'
 
 const Cryptocurrencies = ({ simplified }) => {
   const count = simplified ? 10 : 100;
@@ -19,7 +20,7 @@ const Cryptocurrencies = ({ simplified }) => {
 
   }, [searchTerm, cryptoList])
 
-  if (isFetching) return 'Loading...'
+  if (isFetching) return <Loader />
 
   return (
     <>

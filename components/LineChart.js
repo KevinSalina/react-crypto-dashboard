@@ -3,7 +3,7 @@ import { Line } from 'react-chartjs-2'
 import numeral from 'numeral'
 import {
   Box,
-  HStack,
+  Spacer,
   Heading,
   Text,
   Flex,
@@ -41,8 +41,8 @@ const LineChart = ({ coinHistory, currentPrice, coinName }) => {
       <Box w='full' maxW="1200px" mx='auto' mb={10}>
         <Flex direction={{ base: 'column', md: 'row' }} justifyContent='space-between' mb={3}>
           <Heading>{coinName} Price Chart</Heading>
-          <Flex direction={{ base: 'column', md: 'row' }} fontWeight="medium">
-            <Text color={coinHistory.change >= 0 ? 'green.500' : 'red.500'} >{numeral(coinHistory.change / 100).format('0.00%')}</Text>
+          <Flex direction={{ base: 'column', md: 'row' }} fontWeight="medium" align='center'>
+            <Text mr={3} color={coinHistory.change >= 0 ? 'green.500' : 'red.500'} >{numeral(coinHistory.change / 100).format('0.00%')}</Text>
             <Text>{coinName} Current Price: {numeral(currentPrice).format('$0,0.00')}</Text>
           </Flex>
         </Flex>

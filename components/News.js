@@ -3,9 +3,9 @@ import { Box, SimpleGrid, GridItem, HStack, Heading, Image, Divider, Text, Flex,
 import moment from 'moment'
 import NextLink from 'next/link'
 
-
 import { useGetNewsQuery } from '../services/newsApi'
 import { useGetCryptosQuery } from '../services/cryptoApi'
+import Loader from './Loader'
 
 const News = ({ simplified }) => {
   const [newsCategory, setNewsCategory] = useState('Cryptocurrency')
@@ -33,9 +33,9 @@ const News = ({ simplified }) => {
             <Select placeholder={newsCategory}>
             </Select>
           </Box>
-          <Text>Loading...</Text>
+          <Loader />
         </> :
-        <Text>Loading...</Text>
+        <Loader />
       }
     </>
   )

@@ -6,13 +6,14 @@ import Cryptocurrencies from "../components/Cryptocurrencies"
 import News from "../components/News"
 
 import { useGetCryptosQuery } from "../services/cryptoApi"
+import Loader from "../components/Loader"
 
 export default function Home() {
 
   const { data, isFetching } = useGetCryptosQuery(10)
   const globalStats = data?.data?.stats
 
-  if (isFetching) return 'Loading...'
+  if (isFetching) return <Loader />
 
   return (
     <>

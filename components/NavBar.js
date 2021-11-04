@@ -86,7 +86,7 @@ const NavBar = ({ path }) => {
           </NextLink>
         </Heading>
         <Box display={{ base: 'block', md: 'none' }}>
-          <Menu>
+          <Menu isLazy id={1}>
             <MenuButton as={Button} color="blue.900">
               <HamburgerIcon />
             </MenuButton>

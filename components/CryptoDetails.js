@@ -29,6 +29,7 @@ import numeral, { options } from 'numeral'
 
 import { useGetSingleCryptoQuery, useGetCryptoHistoryQuery } from '../services/cryptoApi'
 import LineChart from './LineChart'
+import Loader from './Loader'
 
 const CryptoDetails = ({ coinId }) => {
   const [timePeriod, setTimePeriod] = useState('7d')
@@ -48,7 +49,7 @@ const CryptoDetails = ({ coinId }) => {
     return numeral(num).format(type || '0.0a')
   }
 
-  if (isFetching || !cryptoCoin || !cryptoHistory) return 'Loading...'
+  if (isFetching || !cryptoCoin || !cryptoHistory) return <Loader />
 
   const times = ['24h', '7d', '30d', '1y', '5y']
 

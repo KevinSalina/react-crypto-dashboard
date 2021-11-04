@@ -1,10 +1,13 @@
 import React from 'react'
+import Exchanges from '../components/Exchanges'
+import { Heading } from '@chakra-ui/react'
 
 const exchanges = () => {
   return (
-    <div>
-      Exhchanges Page
-    </div>
+    <>
+      <Heading as="h1" textAlign={{ base: 'center', md: 'left' }} mb={10}>Exchanges</Heading>
+      <Exchanges />
+    </>
   )
 }
 

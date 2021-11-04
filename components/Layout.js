@@ -9,6 +9,7 @@ const Layout = ({ children }) => {
     <Box as='main' height='100vh'>
       <Head>
         <title>Cyrpto App</title>
+        <link rel='icon' href='/bitcoin.png' />
       </Head>
 
       <Box display="flex" height="auto" bgColor="gray.50" overflowX='hidden'>
