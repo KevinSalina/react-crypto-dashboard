@@ -40,12 +40,14 @@ const Exchanges = () => {
 
   const htmlParserOptions = {
     replace: domNode => {
-      if (domNode.name === 'p') {
-        return <Text mb={3} color="blue.500" fontWeight='light'>{domToReact(domNode.children, htmlParserOptions)}</Text>
-      } else if (domNode.name === 'h3') {
-        return <Heading as='h4' size='md' mb={3}>{domToReact(domNode.children)}</Heading>
-      } else if (domNode.name === 'a') {
-        return <Link isExternal color="blue.800" href={domNode.attribs.href}>{domToReact(domNode.children)}</Link>
+      for (let i = 0; i <= domNode.length; i++) {
+        if (domNode.name === 'p') {
+          return <Text mb={3} key={`p-${i}`} color="blue.500" fontWeight='light'>{domToReact(domNode.children, htmlParserOptions)}</Text>
+        } else if (domNode.name === 'h3') {
+          return <Heading as='h4' key={`h4-${i}`} size='md' mb={3}>{domToReact(domNode.children)}</Heading>
+        } else if (domNode.name === 'a') {
+          return <Link key={`link-${i}`} isExternal color="blue.800" href={domNode.attribs.href}>{domToReact(domNode.children)}</Link>
+        }
       }
     }
   }
@@ -69,26 +71,26 @@ const Exchanges = () => {
             {exchangeData.exchanges.map(exchange => (
               <>
                 <Tr key={exchange.rank} bgColor="gray.100" border='1px' borderColor="gray.200" onClick={() => handleOpenExchange(exchange.id)} _hover={{ cursor: 'pointer' }}>
-                  <Td>
-                    <HStack>
-                      <Text>{exchange.rank}.</Text>
-                      <Image alt='Exchange Icon' src={exchange.iconUrl} boxSize={5} />
-                      <Text fontWeight='semibold'>{exchange.name}</Text>
+                  <Td key={`name-${exchange.id}`}>
+                    <HStack key={`hstack-${exchange.id}`}>
+                      <Text key={`rank-${exchange.rank}`}>{exchange.rank}.</Text>
+                      <Image key={exchange.iconUrl} alt='Exchange Icon' src={exchange.iconUrl} boxSize={5} />
+                      <Text fontWeight='semibold' key={exchange.name}>{exchange.name}</Text>
                     </HStack>
                   </Td>
-                  <Td>
+                  <Td key={exchange.volume}>
                     {`$${numeral(exchange.volume).format('0.0a')}`}
                   </Td>
-                  <Td>
+                  <Td key={exchange.numberOfMarkets}>
                     {`${numeral(exchange.numberOfMarkets).format('0.0a')}`}
                   </Td>
-                  <Td>
+                  <Td key={exchange.marketShare}>
                     {numeral(exchange.marketShare / 100).format('0.0%')}
                   </Td>
                 </Tr>
                 <Tr key={exchange.id} visibility={exchangeOpen === exchange.id ? 'visible' : 'collapse'} transition='all .125s'>
-                  <Td colSpan={4}>
-                    <Collapse in={exchangeOpen === exchange.id}>
+                  <Td key={`collapse-td-${exchange.id}`} colSpan={4}>
+                    <Collapse key={`collapse-${exchange.id}`} in={exchangeOpen === exchange.id}>
                       {HTMLReactParser(`${exchange.description}`, htmlParserOptions)}
                     </Collapse>
                   </Td>
