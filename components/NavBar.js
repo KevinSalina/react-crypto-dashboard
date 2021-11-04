@@ -35,8 +35,6 @@ const NavBar = ({ path }) => {
     return () => window.removeEventListener('resize', handleResize)
   })
 
-
-
   const LinkItem = ({ href, children, icon }) => {
     const router = useRouter()
     const active = router.asPath === href
@@ -91,15 +89,26 @@ const NavBar = ({ path }) => {
               <HamburgerIcon />
             </MenuButton>
             <MenuList color="blue.900" zIndex='100'>
-              <MenuItem>
-                <NextLink href='/cryptocurrencies'>Cryptocurrencies</NextLink>
-              </MenuItem>
-              <MenuItem>
-                <NextLink href='/exchanges'>Exchanges</NextLink>
-              </MenuItem>
-              <MenuItem>
-                <NextLink href='/news'>News</NextLink>
-              </MenuItem>
+              <NextLink href='/' passHref>
+                <MenuItem>
+                  Home
+                </MenuItem>
+              </NextLink>
+              <NextLink href='/cryptocurrencies' passHref>
+                <MenuItem>
+                  Cryptocurrencies
+                </MenuItem>
+              </NextLink>
+              <NextLink href='/exchanges'>
+                <MenuItem>
+                  Exchanges
+                </MenuItem>
+              </NextLink>
+              <NextLink href='/news'>
+                <MenuItem>
+                  News
+                </MenuItem>
+              </NextLink>
             </MenuList>
           </Menu>
         </Box>
