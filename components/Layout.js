@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
 
       <Box display="flex" height="auto" bgColor="gray.50" overflowX='hidden'>
         <NavBar />
-        <Box ml='225px' w="full">
+        <Box ml={{ base: 0, md: '225px' }} mt={{ base: '100px', md: '0px' }} w="full">
           <Box p={{ base: '5%', md: 10 }}>
             {children}
           </Box>

@@ -6,6 +6,7 @@ import {
   HStack,
   Heading,
   Text,
+  Flex,
   useTheme
 } from '@chakra-ui/react'
 import { flushSync } from 'react-dom'
@@ -38,13 +39,13 @@ const LineChart = ({ coinHistory, currentPrice, coinName }) => {
   return (
     <>
       <Box w='full' maxW="1200px" mx='auto' mb={10}>
-        <HStack justifyContent='space-between'>
+        <Flex direction={{ base: 'column', md: 'row' }} justifyContent='space-between' mb={3}>
           <Heading>{coinName} Price Chart</Heading>
-          <HStack fontWeight="medium">
+          <Flex direction={{ base: 'column', md: 'row' }} fontWeight="medium">
             <Text color={coinHistory.change >= 0 ? 'green.500' : 'red.500'} >{numeral(coinHistory.change / 100).format('0.00%')}</Text>
             <Text>{coinName} Current Price: {numeral(currentPrice).format('$0,0.00')}</Text>
-          </HStack>
-        </HStack>
+          </Flex>
+        </Flex>
         <Box w='full'>
           <Line data={data} />
         </Box>

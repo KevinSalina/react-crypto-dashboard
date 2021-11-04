@@ -16,7 +16,7 @@ export default function Home() {
 
   return (
     <>
-      <Heading as="h1" mb={10}> Global Crypto Stats</Heading>
+      <Heading as="h1" textAlign={{ base: 'center', md: 'left' }} mb={10}> Global Crypto Stats</Heading>
       <SimpleGrid columns={24} spacing={2} mb={10} maxW="900px">
         <GridItem colSpan={{ base: 24, md: 12 }}>
           <Statistics title="Total Cryptocurrencies" value={globalStats.total} />

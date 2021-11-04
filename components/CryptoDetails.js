@@ -86,8 +86,8 @@ const CryptoDetails = ({ coinId }) => {
   return (
     <>
       <VStack mb={5} align="flex-start">
-        <Heading as="h1" >{cryptoCoin.name} ({cryptoCoin.slug}) Price </Heading>
-        <Text> {cryptoCoin.name} live price is USD. View value statistics, market cap and supply</Text>
+        <Heading as="h1" textAlign={{ base: 'center', md: 'left' }} >{cryptoCoin.name} ({cryptoCoin.slug}) Price </Heading>
+        <Text textAlign={{ base: 'center', md: 'left' }}> {cryptoCoin.name} live price in USD. View value statistics, market cap and supply.</Text>
       </VStack>
       <Divider />
       <Select

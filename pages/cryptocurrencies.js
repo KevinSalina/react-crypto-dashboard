@@ -6,7 +6,7 @@ const CryptocurrenciesPage = () => {
 
   return (
     <>
-      <Heading as="h1" mb={10}>Top 100 Global Cryptocurrencies</Heading>
+      <Heading as="h1" textAlign={{ base: 'center', md: 'left' }} mb={10}>Top 100 Global Cryptocurrencies</Heading>
       <Cryptocurrencies />
     </>
   )

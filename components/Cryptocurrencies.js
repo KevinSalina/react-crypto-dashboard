@@ -28,7 +28,7 @@ const Cryptocurrencies = ({ simplified }) => {
           <Input placeholder="Search Coins" value={searchTerm} onChange={(e) => setsearchTerm(e.target.value)} />
         </Box>
         : null}
-      <SimpleGrid columns={24} spacing={5} w='full' >
+      <SimpleGrid columns={24} spacingY={5} spacingX={{ base: 0, md: 5 }} w='full' >
         {cryptos?.map(currency => (
           <GridItem key={currency.id} p={4} bgColor="white" transition="all .1s ease-in" colSpan={{ base: 24, md: 12, xl: 8 }} boxShadow='lg' rounded="md" _hover={{ cursor: 'pointer', boxShadow: 'xl' }}>
             <NextLink href={`/cryptocurrencies/${currency.id}`} passHref>

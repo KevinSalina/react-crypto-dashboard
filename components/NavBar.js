@@ -1,5 +1,4 @@
-import React from 'react'
-import { FaMoneyBillAlt } from 'react-icons/fa'
+import React, { useState, useEffect } from 'react'
 import { AiOutlineHome, AiOutlineLineChart, AiOutlineMoneyCollect, AiOutlineBulb } from 'react-icons/ai'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
@@ -13,11 +12,30 @@ import {
   Link,
   VStack,
   HStack,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
   useColorModeValue
 } from '@chakra-ui/react'
+import { HamburgerIcon } from '@chakra-ui/icons'
 
 
 const NavBar = ({ path }) => {
+
+  const [activeMenu, setActiveMenu] = useState(true)
+  const [screenSize, setScreenSize] = useState(null)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenSize(window.innerWidth)
+    }
+    window.addEventListener('resize', handleResize)
+    handleResize()
+    return () => window.removeEventListener('resize', handleResize)
+  })
+
+
 
   const LinkItem = ({ href, children, icon }) => {
     const router = useRouter()
@@ -47,15 +65,46 @@ const NavBar = ({ path }) => {
 
 
   return (
-    <Box as='nav' flex={.2} position="fixed" top={0} left={0} bg="blue.900" color="blue.200" display='flex' flexDir='column' w='225px' h='full'>
-      <Flex alignItems="center" p={3}>
-        <Heading size="lg" color="white" >
+    <Box
+      as='nav'
+      // flex={{ base: 1, md: .2 }}
+      position="fixed"
+      zIndex='100'
+      top={0}
+      left={0}
+      bg="blue.900"
+      color="blue.200"
+      display='flex'
+      flexDir='column'
+      w={{ base: 'full', md: '225px' }}
+      h={{ base: 'auto', md: 'full' }}
+    >
+      <Flex alignItems="center" p={{ base: 5, md: 3 }} justifyContent='space-between'>
+        <Heading size="lg" color="white">
           <NextLink href="/">
             <a>React Crypto</a>
           </NextLink>
         </Heading>
+        <Box display={{ base: 'block', md: 'none' }}>
+          <Menu>
+            <MenuButton as={Button} color="blue.900">
+              <HamburgerIcon />
+            </MenuButton>
+            <MenuList color="blue.900" zIndex='100'>
+              <MenuItem>
+                <NextLink href='/cryptocurrencies'>Cryptocurrencies</NextLink>
+              </MenuItem>
+              <MenuItem>
+                <NextLink href='/exchanges'>Exchanges</NextLink>
+              </MenuItem>
+              <MenuItem>
+                <NextLink href='/news'>News</NextLink>
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </Box>
       </Flex>
-      <VStack alignItems="flex-start">
+      <VStack alignItems="flex-start" display={{ base: 'none', md: 'flex' }}>
         <LinkItem href='/' icon={AiOutlineHome}>
           Home
         </LinkItem>
