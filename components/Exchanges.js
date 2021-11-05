@@ -14,7 +14,10 @@ import {
   TableCaption,
   Link,
   Heading,
-  Collapse
+  Collapse,
+  SimpleGrid,
+  GridItem,
+  Divider
 } from '@chakra-ui/react'
 
 import HTMLReactParser, { domToReact } from 'html-react-parser'
@@ -40,14 +43,13 @@ const Exchanges = () => {
 
   const htmlParserOptions = {
     replace: domNode => {
-      for (let i = 0; i <= domNode.length; i++) {
-        if (domNode.name === 'p') {
-          return <Text mb={3} key={`p-${i}`} color="blue.500" fontWeight='light'>{domToReact(domNode.children, htmlParserOptions)}</Text>
-        } else if (domNode.name === 'h3') {
-          return <Heading as='h4' key={`h4-${i}`} size='md' mb={3}>{domToReact(domNode.children)}</Heading>
-        } else if (domNode.name === 'a') {
-          return <Link key={`link-${i}`} isExternal color="blue.800" href={domNode.attribs.href}>{domToReact(domNode.children)}</Link>
-        }
+      console.log(domNode)
+      if (domNode.name === 'p') {
+        return <Text mb={3} color="blue.500" fontWeight='light'>{domToReact(domNode.children, htmlParserOptions)}</Text>
+      } else if (domNode.name === 'h3') {
+        return <Heading as='h4' size='md' mb={3}>{domToReact(domNode.children)}</Heading>
+      } else if (domNode.name === 'a') {
+        return <Link isExternal color="blue.800" href={domNode.attribs.href}>{domToReact(domNode.children)}</Link>
       }
     }
   }
@@ -57,48 +59,53 @@ const Exchanges = () => {
   return (
     <>
       <Box>
-        <Table variant="simple">
-          <TableCaption>Exchanges</TableCaption>
-          <Thead>
-            <Tr border='1px' borderColor="gray.200">
-              <Th>Exchange</Th>
-              <Th>24h Trade Volume</Th>
-              <Th>Markets</Th>
-              <Th>Market Share</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {exchangeData.exchanges.map(exchange => (
-              <>
-                <Tr key={exchange.rank} bgColor="gray.100" border='1px' borderColor="gray.200" onClick={() => handleOpenExchange(exchange.id)} _hover={{ cursor: 'pointer' }}>
-                  <Td key={`name-${exchange.id}`}>
-                    <HStack key={`hstack-${exchange.id}`}>
+        <SimpleGrid columns={24} fontSize={{ base: 'xs', sm: 'md' }} border='1px' borderColor='gray.300'>
+          <GridItem colSpan={24} p={3} bgColor='gray.200' fontWeight='bold'>
+            <SimpleGrid columns={24}>
+              <GridItem colSpan={6}>
+                EXCHANGE
+              </GridItem>
+              <GridItem colSpan={6} textAlign="right">
+                24H TRADE VOLUME
+              </GridItem>
+              <GridItem colSpan={6} textAlign="right">
+                MARKETS
+              </GridItem>
+              <GridItem colSpan={6} textAlign="right">
+                MARKET SHARE
+              </GridItem>
+            </SimpleGrid>
+          </GridItem>
+          {exchangeData.exchanges.map(exchange => (
+            <>
+              <GridItem p={3} bgColor="gray.100" colSpan={24} key={exchange.id} py={3} onClick={() => handleOpenExchange(exchange.id)} _hover={{ cursor: 'pointer' }}>
+                <SimpleGrid columns={24}>
+                  <GridItem colSpan={6}>
+                    <HStack>
                       <Text key={`rank-${exchange.rank}`}>{exchange.rank}.</Text>
-                      <Image key={exchange.iconUrl} alt='Exchange Icon' src={exchange.iconUrl} boxSize={5} />
+                      <Image key={exchange.iconUrl} alt='Exchange Icon' src={exchange.iconUrl} boxSize={{ base: 3, sm: 5 }} />
                       <Text fontWeight='semibold' key={exchange.name}>{exchange.name}</Text>
                     </HStack>
-                  </Td>
-                  <Td key={exchange.volume}>
+                  </GridItem>
+                  <GridItem colSpan={6} textAlign="right">
                     {`$${numeral(exchange.volume).format('0.0a')}`}
-                  </Td>
-                  <Td key={exchange.numberOfMarkets}>
+                  </GridItem>
+                  <GridItem colSpan={6} textAlign="right">
                     {`${numeral(exchange.numberOfMarkets).format('0.0a')}`}
-                  </Td>
-                  <Td key={exchange.marketShare}>
+                  </GridItem>
+                  <GridItem colSpan={6} textAlign="right">
                     {numeral(exchange.marketShare / 100).format('0.0%')}
-                  </Td>
-                </Tr>
-                <Tr key={exchange.id} visibility={exchangeOpen === exchange.id ? 'visible' : 'collapse'} transition='all .125s'>
-                  <Td key={`collapse-td-${exchange.id}`} colSpan={4}>
-                    <Collapse key={`collapse-${exchange.id}`} in={exchangeOpen === exchange.id}>
-                      {HTMLReactParser(`${exchange.description}`, htmlParserOptions)}
-                    </Collapse>
-                  </Td>
-                </Tr>
-              </>
-            ))}
-          </Tbody>
-        </Table>
+                  </GridItem>
+                </SimpleGrid>
+              </GridItem>
+              <GridItem colSpan={24} p={exchangeOpen === exchange.id ? 3 : 0}>
+                <Collapse key={`collapse-${exchange.id}`} in={exchangeOpen === exchange.id}>
+                  {HTMLReactParser(`${exchange.description}`, htmlParserOptions)}
+                </Collapse>
+              </GridItem>
+            </>
+          ))}
+        </SimpleGrid>
       </Box>
     </>
   )
