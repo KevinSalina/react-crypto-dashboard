@@ -24,6 +24,7 @@ import HTMLReactParser, { domToReact } from 'html-react-parser'
 
 import { useGetExchangesQuery } from '../services/cryptoApi'
 import Loader from './Loader'
+import ExchangeDesc from './ExchangeDesc'
 
 
 const Exchanges = () => {
@@ -43,7 +44,6 @@ const Exchanges = () => {
 
   const htmlParserOptions = {
     replace: domNode => {
-      console.log(domNode)
       if (domNode.name === 'p') {
         return <Text mb={3} color="blue.500" fontWeight='light'>{domToReact(domNode.children, htmlParserOptions)}</Text>
       } else if (domNode.name === 'h3') {
@@ -78,7 +78,7 @@ const Exchanges = () => {
           </GridItem>
           {exchangeData.exchanges.map(exchange => (
             <>
-              <GridItem p={3} bgColor="gray.100" colSpan={24} key={exchange.id} py={3} onClick={() => handleOpenExchange(exchange.id)} _hover={{ cursor: 'pointer' }}>
+              <GridItem p={3} bgColor="gray.100" colSpan={24} key={exchange.uuid} py={3} onClick={() => handleOpenExchange(exchange.uuid)} _hover={{ cursor: 'pointer' }}>
                 <SimpleGrid columns={24}>
                   <GridItem colSpan={6}>
                     <HStack>
@@ -91,16 +91,16 @@ const Exchanges = () => {
                     {`$${numeral(exchange.volume).format('0.0a')}`}
                   </GridItem>
                   <GridItem colSpan={6} textAlign="right">
-                    {`${numeral(exchange.numberOfMarkets).format('0.0a')}`}
+                    {`${numeral(exchange.numberOfMarkets).format('0.[0]a')}`}
                   </GridItem>
                   <GridItem colSpan={6} textAlign="right">
-                    {numeral(exchange.marketShare / 100).format('0.0%')}
+                    {numeral(exchange.marketShare).format('0.0%')}
                   </GridItem>
                 </SimpleGrid>
               </GridItem>
               <GridItem colSpan={24} p={exchangeOpen === exchange.id ? 3 : 0}>
-                <Collapse key={`collapse-${exchange.id}`} in={exchangeOpen === exchange.id}>
-                  {HTMLReactParser(`${exchange.description}`, htmlParserOptions)}
+                <Collapse key={`collapse-${exchange.uuid}`} in={exchangeOpen === exchange.uuid}>
+                  {exchangeOpen === exchange.uuid ? <ExchangeDesc id={exchange.uuid} /> : null}
                 </Collapse>
               </GridItem>
             </>

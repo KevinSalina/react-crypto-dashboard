@@ -32,7 +32,7 @@ const Cryptocurrencies = ({ simplified }) => {
       <SimpleGrid columns={24} spacingY={5} spacingX={{ base: 0, md: 5 }} w='full' >
         {cryptos?.map(currency => (
           <GridItem key={currency.id} p={4} bgColor="white" transition="all .1s ease-in" colSpan={{ base: 24, md: 12, xl: 8 }} boxShadow='lg' rounded="md" _hover={{ cursor: 'pointer', boxShadow: 'xl' }}>
-            <NextLink href={`/cryptocurrencies/${currency.id}`} passHref>
+            <NextLink href={`/cryptocurrencies/${currency.uuid}`} passHref>
               <VStack>
                 <HStack justify="space-between" w="full">
                   <Heading as='h3' size="sm">{`${currency.rank}. ${currency.name}`}</Heading>

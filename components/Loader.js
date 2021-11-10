@@ -1,9 +1,9 @@
 import React from 'react'
 import { Spinner, Center } from '@chakra-ui/react'
 
-const Loader = () => {
+const Loader = ({ small }) => {
   return (
-    <Center height='85vh' w='full'>
+    <Center height={small ? '10vh' : '85vh'} w='full'>
       <Spinner color="blue.800" size="lg" />
     </Center>
   )

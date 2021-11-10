@@ -1,4 +1,4 @@
-import { ChakraProvider } from "@chakra-ui/react"
+import { ChakraProvider, ColorModeProvider } from "@chakra-ui/react"
 import { Provider } from 'react-redux'
 import store from '../app/store'
 import theme from '../styles/theme'
@@ -8,9 +8,16 @@ function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <ChakraProvider theme={theme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <ColorModeProvider
+          options={{
+            initialColorMode: 'light',
+            useSystemColorMode: false
+          }}
+        >
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ColorModeProvider>
       </ChakraProvider>
     </Provider>
   )
